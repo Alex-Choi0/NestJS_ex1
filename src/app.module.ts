@@ -1,9 +1,14 @@
+/* app.module.ts 파일 */
+
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+// AppModule에 추가하려는 ProductsModule를 import
+import { ProductsModule } from './members/member.module';
 
 @Module({
-  imports: [],
+  // ProductsModule를 현 AppModule에 추가하였다.
+  imports: [ProductsModule],
   controllers: [AppController],
   providers: [AppService],
 })
