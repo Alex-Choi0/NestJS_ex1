@@ -51,8 +51,43 @@ export class MemberRepository extends Repository<Member> {
         return member;
     }
 
-    
+    // Member DB정보를 수정한다.
+    // ?는 없어도 되는 인자이다.
+    async updateMember(
+        memberId : number,
+        name? : string,
+        password? : string,
+        email? : string,
+        age? : number,
+    ) : Promise <Member> {
+
+        // this는 DB를 말한다.
+        // DB에서 해당 id와 일치하는 memberId를 찾는다.
+        const member = await this.findOne({ id : memberId});
+
+        // member에 정보가 있으면 입력
+        // 없으면 DB의 정보를 입력한다.
+        member.name = name ? name : member.name;
+        member.password = password ? password : member.password;
+        member.email = email ? email : member.email;
+        member.age = age ? age : member.age;
+
+        try{
+            // 수정한 member의 정보를 DB에 저장한다.
+            await member.save()
+        }
+        catch(err){
+            // error가 발생하면 코드 500과 에러 message를 service쪽에
+            // 보내준다.
+            throw new InternalServerErrorException(err.message);
+            // 여기서 코드는 마무리됨
+        }
+
+        // password는 민감한 정보이므로 Service쪽에 보내지 않는다.
+        delete member.password;
+
+        // member를 Service쪽으로 return한다.
+        return member
+    }
 
 }
-
-
