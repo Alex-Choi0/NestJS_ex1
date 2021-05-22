@@ -12,6 +12,8 @@ import { InternalServerErrorException } from '@nestjs/common';
 export class MemberRepository extends Repository<Member> {
 // members.service.ts에 사용할 method생성
 
+
+    // Member를 생성한다. 
     async createMember(
         name : string,
         password : string,
@@ -48,6 +50,8 @@ export class MemberRepository extends Repository<Member> {
         // member를 service에 return
         return member;
     }
+
+    
 
 }
 

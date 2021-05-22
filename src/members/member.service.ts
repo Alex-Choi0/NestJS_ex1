@@ -19,6 +19,15 @@ export class MembersService{
         //private members: Member_ver1[] = [];
 
 
+    // DB에 있는 모든 member를 조회한다.
+    async inquireAllMember(){
+        // find()은 쿼리문 SELECT * FROM members;
+        // 이라고 보면 된다.
+        return await this.memberRepository.find();
+    }
+
+
+
     // Controller에서 회원정보 등록 요청시
     // DB와 통신을 해야하기 때문에 async사용.
     async createMember(
@@ -30,7 +39,7 @@ export class MembersService{
     ) : Promise <Member>{
 
         // createMember method를 이용하고 결과를 member.controller에 보낸다.
-        return this.memberRepository.createMember(name, password, email, age);
+        return await this.memberRepository.createMember(name, password, email, age);
     }
 
     
