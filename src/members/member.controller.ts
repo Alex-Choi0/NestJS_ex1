@@ -4,7 +4,13 @@
 // Controller : nest js에서 컨트롤 구현시 필요
 // Post : nest js에서 Client의 Post 구현시 필요
 // Body : nest js에서 Client의 Body를 추출할때 필요
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { 
+    Controller, 
+    Post, 
+    Body, 
+    Get,
+    Query
+    } from '@nestjs/common';
 // MembersService method를 참조
 import { MembersService } from './member.service';
 
@@ -23,11 +29,24 @@ export class MembersController{
 
     // GET요청 URL : root/members
     @Get()
-    async inquireAllMember(){
-        // service에서 method inquireAllMember를 이용하여
-        // 모든 DB에 있는 member정보를 받는다.
-        return await this.membersService.inquireAllMember();
+    async inquireMember(@Query() query){
+
+        // parame이 존재하지 않음
+        // 모든 member를 조회한다.
+        if(!query.id){
+            // service에서 method inquireAllMember를 이용하여
+            // 모든 DB에 있는 member정보를 받는다.
+            return await this.membersService.inquireAllMember();
+        }
+
+        else{
+            return await this.membersService.inquireOneMember(query.id);
+        }
+
+        
     }
+
+    
 
     // POST요청 URL : root/members
     @Post()

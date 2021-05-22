@@ -26,6 +26,16 @@ export class MembersService{
         return await this.memberRepository.find();
     }
 
+    // DB에 있는 모든 member를 조회한다.
+    async inquireOneMember(
+        memberId : number
+    ){
+        // find({id : memberId})은 쿼리문 
+        // SELECT * FROM members where id=[memberId(숫자)];
+        // 이라고 보면 된다.
+        return await this.memberRepository.findOne({id : memberId});
+    }
+
 
 
     // Controller에서 회원정보 등록 요청시
@@ -41,9 +51,5 @@ export class MembersService{
         // createMember method를 이용하고 결과를 member.controller에 보낸다.
         return await this.memberRepository.createMember(name, password, email, age);
     }
-
-    
-
-
 
 }
