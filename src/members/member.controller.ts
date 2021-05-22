@@ -8,6 +8,7 @@ import { Controller, Post, Body, Get } from '@nestjs/common';
 // MembersService method를 참조
 import { MembersService } from './member.service';
 
+
 // Controller의 시작부분
 // ('members')일시 url은 root/members으로 요청이 와야 
 // 아래 Controller이 실행된다.
@@ -20,9 +21,17 @@ export class MembersController{
 
     }
 
+    // GET요청 URL : root/members
+    @Get()
+    async inquireAllMember(){
+        // service에서 method inquireAllMember를 이용하여
+        // 모든 DB에 있는 member정보를 받는다.
+        return await this.membersService.inquireAllMember();
+    }
+
     // POST요청 URL : root/members
     @Post()
-    addMember(
+    async addMember(
         // Client의 Body에서 온 정보를 각각 변수로 
         // 저장
         @Body() completeBody: {
@@ -43,7 +52,7 @@ export class MembersController{
     ){
         // membersService의 insertMember를 이용하여 신입회원을 
         // 가입시키고 해당 PkId를 return한다.
-        const memberPkId = this.membersService.createMember(
+        const memberPkId = await this.membersService.createMember(
             completeBody.name,
             completeBody.password,
             completeBody.email,
