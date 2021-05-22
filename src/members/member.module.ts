@@ -1,4 +1,5 @@
-/* member.module.ts 파일 */
+// member.module.ts : /src/members
+
 // module를 생성하는데 필요한 component
 import { Module } from '@nestjs/common';
 
@@ -6,16 +7,18 @@ import { Module } from '@nestjs/common';
 // 각각의 파일에서 import한다.
 import { MembersController } from './member.controller';
 import { MembersService } from './member.service';
-// 환경변수를 저장하기 위한 import
-import{ ConfigModule } from '@nestjs/config';
+
+// MemberRepository를 module에 import한다.
+import { MemberRepository } from './member.repository';
+// TypeOrmModule를 적용
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 
 
 // members모델 생성
 @Module({
     imports:[
-        ConfigModule.forRoot({
-            isGlobal: true
-        })
+        TypeOrmModule.forFeature([MemberRepository])
     ],
     // 해당 controllers(members컨트롤) 및
     // providers(members서비스)를 배열로 입력.
