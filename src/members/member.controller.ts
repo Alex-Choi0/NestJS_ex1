@@ -9,7 +9,9 @@ import {
     Post, 
     Body, 
     Get,
-    Query
+    Query,
+    Put,
+    BadRequestException
     } from '@nestjs/common';
 // MembersService method를 참조
 import { MembersService } from './member.service';
@@ -31,7 +33,7 @@ export class MembersController{
     @Get()
     async inquireMember(@Query() query){
 
-        // parame이 존재하지 않음
+        // parame의 id가 존재하지 않음
         // 모든 member를 조회한다.
         if(!query.id){
             // service에서 method inquireAllMember를 이용하여
@@ -79,6 +81,31 @@ export class MembersController{
         );
 
         return memberPkId;
+
+    }
+
+    @Put()
+    async updateMember(
+        @Query() query,
+        @Body('name') name: string,
+        @Body('password') password: string,
+        @Body('email') email: string,
+        @Body('age') age : number
+        
+        ){
+
+        // query에 memberId가 존재하지 않을시 
+        // if문 수행
+        if(!query.id){
+            throw new BadRequestException("parms id doesn't exist");
+        }
+
+        const updateMember = await this.membersService.updateMember(
+            query.id,name, password, email, age
+
+        );
+
+        return updateMember;
 
     }
 

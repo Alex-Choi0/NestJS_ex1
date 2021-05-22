@@ -52,4 +52,17 @@ export class MembersService{
         return await this.memberRepository.createMember(name, password, email, age);
     }
 
+    // Controller에서 회원정보 수정 요청시
+    async updateMember(
+        memberId : number,
+        name : string,
+        password : string,
+        email : string,
+        age : number,
+    ) : Promise <Member> {
+
+        // updateMember method를 이용하고 결과를 member.controller에 보낸다.
+        return await this.memberRepository.updateMember(memberId, name, password, email, age);
+    }
+
 }
