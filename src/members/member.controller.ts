@@ -62,6 +62,8 @@ export class MembersController{
             completeBody.age
         );
 
+        
+
         // 새로 가입한 회원의 PkId를 JSON형식으로 return 한다.
         return {
             id : memberPkId

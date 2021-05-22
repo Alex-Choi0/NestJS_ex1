@@ -1,12 +1,13 @@
 import { Injectable} from "@nestjs/common";
 import { Member_ver1, Member_ver2 } from "./members.module";
 import { v4 as uuidv4 } from 'uuid'; // PK ID를 만들기 위한 npm
+import { ConfigService } from "@nestjs/config"
 
 
 // controller에 method를 제공해 준다.
 @Injectable()
 export class MembersService{
-
+    constructor(private configService: ConfigService) {}
     // 더미데이터 members을 생성한다.
     // class Member_ver1기준이며 빈배열로 시작한다.
     // private는 members가 내부 method을 통하지 않고서는
@@ -34,10 +35,24 @@ export class MembersService{
 
     }
 
-    // Controller에서 회원저어보 조회시
+    // Controller에서 회원정보 조회시
     getMembers(){
         // 모든 회원의 정보를 배열로 return
+        console.log("환경변수 체크 DATABASE_USER : ", process.env)
         return [...this.members];
     }
+
+    getMembersId(memberId : string){
+
+        const members = this.members.find((ele) => ele.id === memberId);
+
+        if(!members){
+            
+            return 
+        }
+
+    }
+
+
 
 }
