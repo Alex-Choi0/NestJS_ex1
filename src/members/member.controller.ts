@@ -11,6 +11,7 @@ import {
     Get,
     Query,
     Put,
+    Delete,
     BadRequestException
     } from '@nestjs/common';
 // MembersService method를 참조
@@ -106,6 +107,30 @@ export class MembersController{
         );
 
         return updateMember;
+
+    }
+
+    @Delete()
+    async deleteMember(
+        @Query() query,
+        @Body('password') password: string,
+        @Body('email') email: string
+        
+        ){
+        // query에 memberId가 존재하지 않을시 
+        // if문 수행
+        if(!query.id){
+            throw new BadRequestException("parms id doesn't exist");
+        }
+
+        const deleteMember = await this.membersService.deleteMember(
+            query.id, password, email
+
+        );
+
+        return {
+            message : "delete complete"
+        };
 
     }
 

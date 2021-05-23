@@ -65,4 +65,15 @@ export class MembersService{
         return await this.memberRepository.updateMember(memberId, name, password, email, age);
     }
 
+        // Controller에서 회원정보 삭제 요청시
+        async deleteMember(
+            memberId : number,
+            password : string,
+            email : string,
+        ) : Promise <Member> {
+    
+            // updateMember method를 이용하고 결과를 member.controller에 보낸다.
+            return await this.memberRepository.deleteMember(memberId, password, email);
+        }
+
 }
