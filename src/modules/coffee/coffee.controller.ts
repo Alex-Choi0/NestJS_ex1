@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { 
+    Body, 
+    Controller, 
+    Get, 
+    Param, 
+    Post, 
+    Query, 
+    HttpCode,
+    HttpStatus,
+    InternalServerErrorException 
+} from '@nestjs/common';
 
 // coffee 컨트롤러
 // localhosg:3000/coffee url로 클라이언트에서 서버로 요청을 준다.
@@ -22,7 +32,9 @@ export class CoffeeController {
     }
 
     // body값을 읽기 위하여 Post요청을 만든다. 
-    @Post()     
+    @Post()
+    // 응답할 코드를 지정
+    @HttpCode(HttpStatus.ACCEPTED) // ACCEPTED는 202코드 출력
     create(
         @Body('name') name : string,
         @Body('message') message : string
@@ -30,6 +42,15 @@ export class CoffeeController {
         console.log("request from client(POST)")
         // 클라이언트에서 받은 body를 확인하기 위해서 
         // 다시 클라이언트로 응답한다.
-        return (`당신의 이름은 ${name}이고 보낸 메세지는 '${message}' 입니다.`);
+
+        try{
+            return (`당신의 이름은 ${name}이고 보낸 메세지는 '${message}' 입니다.`);
+        }
+        catch{
+            throw new InternalServerErrorException("임의 에러 발생");
+        }
+
+        
+        
     }
 }
